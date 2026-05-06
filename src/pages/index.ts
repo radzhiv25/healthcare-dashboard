@@ -1,0 +1,6 @@
+export { AuthPage } from "@/pages/auth/AuthPage"
+export { DashboardPage } from "@/pages/dashboard/DashboardPage"
+export { LoginPage } from "@/pages/login/LoginPage"
+export { HomeDashboardPage } from "@/pages/dashboard/HomeDashboardPage"
+export { AnalyticsPage } from "@/pages/analytics/AnalyticsPage"
+export { PatientDetailsPage } from "@/pages/patients/PatientDetailsPage"

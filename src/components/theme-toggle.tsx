@@ -1,4 +1,5 @@
 import { IconCircleHalf2 } from "@tabler/icons-react"
+import { useMemo } from "react"
 
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
@@ -6,12 +7,19 @@ import { useTheme } from "@/components/theme-provider"
 export function ThemeToggle({ className = "" }: { className?: string }) {
   const { theme, setTheme } = useTheme()
 
-  const currentResolvedTheme =
-    theme === "system"
-      ? window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-      : theme
+  const currentResolvedTheme = useMemo(() => {
+    if (theme !== "system") {
+      return theme
+    }
+
+    if (typeof window === "undefined") {
+      return "light"
+    }
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light"
+  }, [theme])
 
   return (
     <Button

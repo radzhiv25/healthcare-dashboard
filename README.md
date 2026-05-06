@@ -1,21 +1,40 @@
-# React + TypeScript + Vite + shadcn/ui
+# Healthcare Dashboard
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
+Healthcare SaaS frontend built with React, TypeScript, Vite, shadcn/ui, and Zustand.
 
-## Adding components
+## Features
 
-To add components to your app, run the following command:
+- Firebase-backed login/signup flow with protected routes
+- Clinical operations dashboard with healthcare KPIs and charts
+- Advanced analytics module with quality and revenue insights
+- Patient module with grid/list views, filters, and add-patient flow
+- Service worker powered local notifications
+- Lyra-style UI system with dark/light theme support
 
-```bash
-npx shadcn@latest add button
-```
+## Tech Stack
 
-This will place the ui components in the `src/components` directory.
+- React 19 + TypeScript
+- Vite
+- Zustand
+- shadcn/ui
+- Recharts
+- Firebase Authentication
 
-## Using components
+## Getting Started
 
-To use the components in your app, import them as follows:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Configure environment values from `.env.example`
+3. Run the app:
+   ```bash
+   npm run dev
+   ```
 
-```tsx
-import { Button } from "@/components/ui/button"
-```
+## Scripts
+
+- `npm run dev` - start local development server
+- `npm run build` - production build
+- `npm run lint` - run ESLint
+- `npm run typecheck` - run TypeScript checks

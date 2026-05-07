@@ -11,6 +11,28 @@ import { auth, firebaseConfigured } from "@/lib/firebase"
 
 type AuthMode = "login" | "signup"
 
+function getAuthErrorMessage(error: unknown) {
+  if (typeof error === "object" && error !== null && "code" in error) {
+    const code = String((error as { code?: unknown }).code)
+
+    if (
+      code === "auth/user-not-found" ||
+      code === "auth/invalid-credential" ||
+      code === "auth/wrong-password"
+    ) {
+      return "User does not exist or credentials are invalid."
+    }
+
+    if (code === "auth/email-already-in-use") {
+      return "An account already exists with this email."
+    }
+  }
+
+  return error instanceof Error
+    ? error.message
+    : "Authentication failed. Please try again."
+}
+
 type AuthStore = {
   user: User | { uid: string; email: string | null } | null
   loading: boolean
@@ -64,8 +86,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ user: response.user, loading: false, error: null })
       return true
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Authentication failed. Please try again."
+      const message = getAuthErrorMessage(error)
       set({ loading: false, error: message })
       return false
     }

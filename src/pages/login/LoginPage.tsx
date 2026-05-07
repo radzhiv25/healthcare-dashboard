@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { IconEye, IconEyeOff } from "@tabler/icons-react"
 import { TbHealthRecognition } from "react-icons/tb"
@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuthStore } from "@/store/auth-store"
+import { toast } from "sonner"
 
 type Mode = "login" | "signup"
 
@@ -22,6 +23,11 @@ export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [localError, setLocalError] = useState("")
+
+  useEffect(() => {
+    if (!error) return
+    toast.error(error)
+  }, [error])
 
   const switchMode = (nextMode: Mode) => {
     setMode(nextMode)

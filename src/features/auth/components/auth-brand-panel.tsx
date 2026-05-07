@@ -1,8 +1,9 @@
 import {
   Bar,
-  BarChart,
   CartesianGrid,
   Cell,
+  ComposedChart,
+  Line,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -29,18 +30,18 @@ type OverlayMetric = {
 }
 
 const monthlyData = [
-  { month: "Jan", consultations: 18, discharges: 10 },
-  { month: "Feb", consultations: 24, discharges: 12 },
-  { month: "Mar", consultations: 22, discharges: 11 },
-  { month: "Apr", consultations: 35, discharges: 16 },
-  { month: "May", consultations: 42, discharges: 18 },
-  { month: "Jun", consultations: 38, discharges: 15 },
-  { month: "Jul", consultations: 36, discharges: 14 },
-  { month: "Aug", consultations: 40, discharges: 16 },
-  { month: "Sep", consultations: 46, discharges: 19 },
-  { month: "Oct", consultations: 51, discharges: 21 },
-  { month: "Nov", consultations: 48, discharges: 20 },
-  { month: "Dec", consultations: 55, discharges: 22 },
+  { month: "Jan", consultations: 18, discharges: 10, capacity: 30 },
+  { month: "Feb", consultations: 24, discharges: 12, capacity: 30 },
+  { month: "Mar", consultations: 22, discharges: 11, capacity: 32 },
+  { month: "Apr", consultations: 35, discharges: 16, capacity: 34 },
+  { month: "May", consultations: 42, discharges: 18, capacity: 38 },
+  { month: "Jun", consultations: 38, discharges: 15, capacity: 38 },
+  { month: "Jul", consultations: 36, discharges: 14, capacity: 40 },
+  { month: "Aug", consultations: 40, discharges: 16, capacity: 42 },
+  { month: "Sep", consultations: 46, discharges: 19, capacity: 44 },
+  { month: "Oct", consultations: 51, discharges: 21, capacity: 46 },
+  { month: "Nov", consultations: 48, discharges: 20, capacity: 46 },
+  { month: "Dec", consultations: 55, discharges: 22, capacity: 50 },
 ]
 
 const donutData = [
@@ -209,45 +210,67 @@ function ConsultationsChartCard() {
           <p className="text-[11px] text-muted-foreground">Monthly OPD and discharge trends</p>
         </div>
         <div className="text-[11px] text-muted-foreground">
-          <span className="mr-3 inline-block size-2 rounded-full bg-blue-500" />
+          <span className="mr-3 inline-block size-2 bg-sky-500" />
           Consultations
-          <span className="ml-4 mr-3 inline-block size-2 rounded-full bg-blue-200" />
+          <span className="ml-4 mr-3 inline-block size-2 bg-indigo-300" />
           Discharges
+          <span className="ml-4 mr-3 inline-block size-2 border border-amber-400 bg-transparent" />
+          Capacity
         </div>
       </div>
       <div className="lyra-corners h-36 bg-muted/35 p-2 backdrop-blur-sm">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={monthlyData} barGap={2}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
+          <ComposedChart data={monthlyData} barGap={2}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 10, fill: "#64748b" }}
+              tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
               axisLine={false}
               tickLine={false}
             />
-            <YAxis hide />
+            <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
             <Tooltip
-              cursor={{ fill: "#eef4ff" }}
+              cursor={{ fill: "hsl(var(--muted) / 0.25)" }}
+              labelStyle={{ color: "hsl(var(--foreground))" }}
+              formatter={(value, name) => {
+                const numericValue =
+                  typeof value === "number"
+                    ? value
+                    : Number.parseFloat(String(value ?? 0))
+                const label =
+                  name === "consultations"
+                    ? "Consultations"
+                    : name === "discharges"
+                      ? "Discharges"
+                      : "Capacity"
+
+                return [`${numericValue} patients`, label]
+              }}
               contentStyle={{
-                background: "#fff",
-                border: "1px solid #e2e8f0",
-                borderRadius: 8,
+                background: "hsl(var(--popover) / 0.95)",
+                border: "1px solid hsl(var(--border))",
+                borderRadius: 0,
+                color: "hsl(var(--popover-foreground))",
                 fontSize: 12,
               }}
             />
+            <Bar dataKey="discharges" radius={0} fill="hsl(var(--chart-2))" animationDuration={900} />
             <Bar
               dataKey="consultations"
-              radius={[6, 6, 0, 0]}
-              fill="#4f8ff7"
+              radius={0}
+              fill="hsl(var(--chart-1))"
               animationDuration={1200}
             />
-            <Bar
-              dataKey="discharges"
-              radius={[6, 6, 0, 0]}
-              fill="#bfd4ff"
-              animationDuration={1500}
+            <Line
+              type="monotone"
+              dataKey="capacity"
+              stroke="hsl(var(--chart-4))"
+              strokeWidth={1.75}
+              strokeDasharray="4 4"
+              dot={false}
+              animationDuration={1100}
             />
-          </BarChart>
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
     </div>

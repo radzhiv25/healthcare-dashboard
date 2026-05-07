@@ -38,3 +38,10 @@ Healthcare SaaS frontend built with React, TypeScript, Vite, shadcn/ui, and Zust
 - `npm run build` - production build
 - `npm run lint` - run ESLint
 - `npm run typecheck` - run TypeScript checks
+
+## Firebase Auth Notes
+
+- Add Firebase keys in `.env` using `.env.example` as reference
+- Enable Email/Password auth in Firebase Console
+- Restart Vite after updating environment variables
+- Invalid login attempts now surface themed toast feedback

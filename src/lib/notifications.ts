@@ -30,10 +30,10 @@ export async function showOperationalNotification(payload: AppNotificationPayloa
   const registration = await navigator.serviceWorker.ready
   await registration.showNotification(payload.title, {
     body: payload.body,
-    icon: "/vite.svg",
+    icon: "/favicon.svg",
     tag: payload.tag,
     data: { url: payload.url ?? "/dashboard", timestamp: Date.now() },
-    badge: "/vite.svg",
+    badge: "/favicon.svg",
   })
 
   return true

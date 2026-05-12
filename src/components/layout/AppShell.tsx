@@ -32,6 +32,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { DeleteAccountDialog } from "@/components/layout/delete-account-dialog"
 import { TbHealthRecognition } from "react-icons/tb"
 
 type AppShellProps = PropsWithChildren<{
@@ -77,7 +78,8 @@ function ShellSidebarContent({ onLogout }: { onLogout: () => void }) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t border-sidebar-border p-3">
+      <SidebarFooter className="border-t border-sidebar-border p-3 space-y-1.5">
+        <DeleteAccountDialog />
         <Button
           variant="outline"
           className="w-full justify-start transition-all duration-200 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
